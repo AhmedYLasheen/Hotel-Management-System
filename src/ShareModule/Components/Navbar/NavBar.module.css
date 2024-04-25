@@ -6,11 +6,26 @@
 
 .nav{
     background-color: #ffffff !important; 
-    padding: 0  0  0  50px !important;
+    /* padding: 0  0  0  50px !important; */
     box-shadow: none !important;
 }
+
+.logo{
+    color: rgb(0, 0, 0);
+}
+.hlogo{
+    color: rgb(102, 102, 246);
+    margin-top: 10px;
+
+}
+
+.avatar:hover{
+background-color: inherit !important;
+}
+
+
 .bottom{
-    /* background-color: rgb(61, 10, 229) !important; */
+    background-color: rgb(61, 10, 229) !important;
     padding: 20px;
     margin:0% 15px !important;
     width: 200px;
@@ -26,11 +41,12 @@
         padding: 5px !important;
     }
     .logoimg{
-        /* display: none; */
+        display: none;
         width: 50px !important;
     }
   
   } 
+  
 /* .logoimg{
     display: none !important;
 } */

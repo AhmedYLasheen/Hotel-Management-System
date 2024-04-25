@@ -49,7 +49,7 @@ const Landing = () => {
       const response = await axios.get(
         `${baseUrl}/v0/portal/ads?page=1&size=5`
       );
-      console.log(response.data.data.ads);
+      // console.log(response.data.data.ads);
       setADSList(response.data.data.ads);
     } catch (error) {
       console.log("ssssssssss");

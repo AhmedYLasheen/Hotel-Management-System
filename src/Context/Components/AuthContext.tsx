@@ -14,6 +14,7 @@ export interface IAuth {
 
 interface DecodedTokenType {
   role: string;
+  _id:string
   
 }
 
