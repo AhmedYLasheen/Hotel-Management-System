@@ -3,20 +3,18 @@ import {
   CardContent,
   IconButton,
   Pagination,
-  Stack,
+  
   Typography,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { AuthContext } from "../../Context/Components/AuthContext";
 import { toast } from "react-toastify";
-
-
 
 export default function Favorites() {
   const authContext = useContext(AuthContext);
@@ -28,15 +26,17 @@ export default function Favorites() {
     return null;
   }
 
-  const [favRoomsList, setFavRoomsList] = useState<{ images: string[]; roomNumber: string; price: number; _id: string; }[]>([]);
+  const [favRoomsList, setFavRoomsList] = useState<
+    { images: string[]; roomNumber: string; price: number; _id: string }[]
+  >([]);
   const [isLoading, setIsLoading] = useState(false);
-  // Pagination 
+
+  // Pagination
   const [page, setPage] = useState(1);
   const itemsPerPage = 6;
 
+
   // add AllFavRooms
-
-
   const getAllFavRooms = async () => {
     setIsLoading(true);
 
@@ -55,6 +55,7 @@ export default function Favorites() {
     }
   };
 
+  // remove Fav room
   const removeFromFav = async (roomId: string) => {
     setIsLoading(true);
     try {
@@ -68,16 +69,18 @@ export default function Favorites() {
       // console.log(response.data.message)
       toast.success(response.data.message);
       getAllFavRooms();
-    } catch (error) {
-      // toast.error(error)
-      toast.error("you can't remove your favorite room");
-
+    } catch (error:any) {
       // console.log(error);
+      toast.error(error.response.data.message);
+
+      // toast.error("you can't remove your favorite room");
     } finally {
       setIsLoading(false);
     }
   };
 
+
+    // Pagination
   const pageCount = Math.ceil(favRoomsList.length / itemsPerPage);
 
   const displayedRooms = favRoomsList.slice(
@@ -138,7 +141,7 @@ export default function Favorites() {
                 <div className={StyleFav.imgoverlay}>
                   <img
                     src={room.images[0]}
-                    alt=""
+                    alt="img fav room"
                     style={{
                       width: "100%",
                       height: "250px",
@@ -184,7 +187,7 @@ export default function Favorites() {
           onChange={handlePageChange}
           color="primary"
           size="large"
-          sx={{ mt: 3, justifyContent: 'center' }}
+          sx={{ mt: 3, justifyContent: "center" }}
         />
       </Box>
     </>
