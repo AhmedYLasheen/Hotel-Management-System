@@ -131,7 +131,7 @@ export default function Rooms() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const { listDataRooms, getRooms } = useContext(contextRoom);
   // const { ListBooking ,getBooking} = useContext(contextBooking);
-  // console.log(ListBooking)
+  console.log(listDataRooms)
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -231,12 +231,17 @@ export default function Rooms() {
   const handleDeleteConfirmed = async () => {
   setLoading(true);
   try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      throw new Error("room is not authenticated");
+    }
+    
     await axios.delete(
       `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${selectedRoomId}`,
       {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+          Authorization: token,
+
         },
       }
     );
@@ -281,7 +286,7 @@ export default function Rooms() {
     <>
       <Container>
         <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item xs={12} md={6}>
+          <Grid sx={{marginTop:"2rem"}} item xs={12} md={6}>
             <Typography variant="h6" component="h2">
               Rooms Table Details
             </Typography>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Button,
   TextField,
@@ -36,6 +36,12 @@ interface FormData {
 
 export default function RoomsData() {
   const { ListFacility, getFacility } = useContext(contextFacility);
+  useEffect(() => {
+    getFacility()
+    ListFacility
+    console.log(ListFacility)
+
+  }, [])
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -105,14 +111,17 @@ export default function RoomsData() {
     const addFormData = appendToFormData(data);
     setIsLoading(true);
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("room is not authenticated");
+      }
       const response = await axios.post(
         `https://upskilling-egypt.com:3000/api/v0/admin/rooms`,
         addFormData,
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-            "Content-Type": "multipart/form-data",
+            Authorization: token,
+
           },
         }
       );
@@ -123,7 +132,7 @@ export default function RoomsData() {
       if (error.response) {
         toast.error(error.response.data.message);
       } else {
-        console.log(error);
+        // console.log(error);
         toast.error("You Can't Add New Room");
       }
     } finally {

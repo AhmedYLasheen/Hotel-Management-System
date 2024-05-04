@@ -1,5 +1,8 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { AuthContext } from "../Context/Components/AuthContext";
+
+
 
 export const contextFacility = createContext<{
   getFacility: () => Promise<void>;
@@ -7,6 +10,13 @@ export const contextFacility = createContext<{
 }>({ getFacility: () => Promise.resolve(), ListFacility: [] });
 
 export function RoomFacility({ children }: React.PropsWithChildren<{}>) {
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    // Handle the case where AuthContext is null
+    return null;
+  }
+  const { baseUrl, requestHeaders } = authContext;
+
   const [ListFacility, setListFacility] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -16,10 +26,8 @@ const getFacility = async () => {
     const response = await axios.get(
       `https://upskilling-egypt.com:3000/api/v0/admin/room-facilities?pageSize=10&pageNumber=1`,
       {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-        },
+        headers: requestHeaders,
+
       }
     );
     setListFacility(response?.data?.data?.facilities);
@@ -32,6 +40,7 @@ const getFacility = async () => {
 
   useEffect(() => {
     getFacility();
+    ListFacility
 
   }, []);
 

@@ -92,8 +92,12 @@ function App() {
     <>
       <Elements stripe={stripePromise}>
         <DashBoardRoom>
+        <AllRooms>
+          <RoomFacility>
           <ToastContainer />
           <RouterProvider router={routes} />
+          </RoomFacility>
+          </AllRooms>
         </DashBoardRoom>
       </Elements>
     </>

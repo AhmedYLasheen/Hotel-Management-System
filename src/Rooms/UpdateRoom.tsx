@@ -85,14 +85,19 @@ export default function UpdateRoom() {
     // });
 
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("room is not authenticated");
+      }
+      
       const response = await axios.put(
         `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`,
         data,
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
-            "Content-Type": "multipart/form-data",
+            Authorization: token,
+            "Content-Type":"multipart/form-data"
+
           },
         }
       );
@@ -107,12 +112,15 @@ export default function UpdateRoom() {
 
   const getRoomDetails = async () => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("room is not authenticated");
+      }
       const response = await axios.get(
         `https://upskilling-egypt.com:3000/api/v0/admin/rooms/${id}`,
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzA0NzAyMiwiZXhwIjoxNzE0MjU2NjIyfQ.jvK-YQkaJxctH0fureUXfXfqoQv5Oft3WORMVWJFJAQ",
+            Authorization: token,
           },
         }
       );
@@ -146,7 +154,7 @@ export default function UpdateRoom() {
   return (
     <>
       <Container>
-        <Box>
+        <Box sx={{marginTop:"3rem"}}>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <TextField
               sx={{ width: 1, mb: 4 }}
@@ -313,9 +321,13 @@ export default function UpdateRoom() {
               </Grid>
             </Grid>
 
+            <Box sx={{textAlign:"end"}}>
             <Button  variant="contained" type="submit">
               Update
             </Button>
+            </Box>
+
+          
           </Form>
         </Box>
       </Container>
