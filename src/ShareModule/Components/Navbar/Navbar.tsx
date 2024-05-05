@@ -227,28 +227,27 @@
 //   );
 // }
 
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
+import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import img from "../../../assets/images/avatar.png";
-import { AuthContext } from "../../../Context/Components/AuthContext";
-import style from "./NavBar.module.css";
-import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import LogoutIcon from "@mui/icons-material/Logout";
 import axios from "axios";
+import { AuthContext } from "../../../Context/Components/AuthContext";
+import img from "../../../assets/images/avatar.png";
+import style from "./NavBar.module.css";
 
 // const pages = ["Products", "Pricing", "Blog"];
 // const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -303,7 +302,7 @@ function ResponsiveAppBar() {
     createdAt: string;
     role : string
   }
-  const [UserList, setUserList] = React.useState<IUser[]>([]);
+  const [UserList, setUserList] = React.useState<IUser>();
 
   const fetchData = async () => {
     const token = localStorage.getItem("token");
@@ -312,7 +311,7 @@ function ResponsiveAppBar() {
     }
     try {
       const response = await axios.get(
-        `${baseUrl}/v0/admin/users/${loginData._id}`,
+        `${baseUrl}/v0/admin/users/${loginData? loginData?._id :""}`,
         {
           headers: {
             Authorization: token,
@@ -320,19 +319,25 @@ function ResponsiveAppBar() {
         }
       );
 
-      console.log(response.data.data.user);
-      setUserList(response.data.data.user);
+      console.log(response?.data?.data.user);
+      setUserList(response?.data?.data?.user);
+      
       // console.log(response.data.data.user._id);
       // setuserId(response.data.data.user._id);
 
     } catch (error) {
       console.log("ssssssssss");
+      // console.log(response?.error);
     }
   };
 
+  // fetchData();
+  
   React.useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
+  
+  
 
   return (
     <AppBar
@@ -489,7 +494,7 @@ function ResponsiveAppBar() {
             {loginData ? (
               <Tooltip className={style.avatar} title="Open To Show Your Data">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src={img} />
+                  <Avatar alt="Remy Sharp" src={UserList? UserList.profileImage:img} />
                   <ArrowDropDownIcon sx={{ color: "pramary.light" }} />
                 </IconButton>
               </Tooltip>
@@ -511,7 +516,7 @@ function ResponsiveAppBar() {
             )}
 
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: "45px" , width:"100%" , ml:"40px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -527,13 +532,14 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
              
-              <Typography textAlign="center">Name</Typography>
-              <Typography textAlign="center">Email</Typography>
+              <Typography sx={{mx:2}} textAlign="center">{UserList? UserList.userName : "Name"}</Typography>
+              <Typography sx={{mx:2}} textAlign="center">{UserList? UserList.email : "emaail"}</Typography>
               <MenuItem title="LogOut" onClick={logOut}>
                 {/* <Typography textAlign="center">Log Out</Typography> */}
                 <IconButton>
-                  {/* <h6>LogOut</h6> */}
                   <LogoutIcon sx={{ color: "pramary.light" }} />
+                  <Typography>LogOut</Typography>
+
                 </IconButton>
               </MenuItem>
 
