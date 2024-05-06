@@ -197,6 +197,7 @@ export default function Rooms() {
   };
   const handleDeleteConfirmed = async () => {
   setLoading(true);
+  
   try {
     const token = localStorage.getItem("token");
     if (!token) {

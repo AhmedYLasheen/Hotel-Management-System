@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import { useContext, useEffect, useState } from "react";
@@ -148,7 +149,7 @@ const directionStyle=i18n.resolvedLanguage;
                 <IconButton
                   onClick={handleDecrease}
                   sx={{
-                    fontSize: { xs: "1px", sm: "1px", md: "1px" },
+                    fontSize: { xs: "1px", sm: "1px", md: "1px"  },
                     color: "white",
                     backgroundColor: red[600],
                     padding: {
@@ -156,7 +157,7 @@ const directionStyle=i18n.resolvedLanguage;
                       sm: "10px 20px",
                       md: "12px 24px",
                     },
-                    width: { xs: "40px", sm: "50px" },
+                    width: { xs: "40px", sm: "50px"  },
                     height: { xs: "40px", sm: "50px", lg: "55px" },
                     borderRadius: "1px",
                     p: "8px",
@@ -173,10 +174,7 @@ const directionStyle=i18n.resolvedLanguage;
                   sx={{
                     backgroundColor: theme?.palette.grey[100],
                     border: "none !important",
-                    width: {
-                      sm: "80%",
-                      md: "80%",
-                    },
+                    width : { xs : "100%" ,sm : "87.5%" ,md :"100%" , lg :"84%"  , xl : "90%" },
                     mt: 2,
                     justifyContent: "center",
                     alignItems: "center",
@@ -227,15 +225,6 @@ const directionStyle=i18n.resolvedLanguage;
               >
                 {t("main.Explor")}
               </Button>
-
-              {/*  // in commpontet explor you can use  //const { state } = useLocation();// this line of code to accses state and this piss of code 
-            // const bookingGuestCount = state?.persons;
-               // const [selectedDateRange, setSelectedDateRange] = useState<Range<Dayjs>>([
-         //   state?.range[0],
-         //   state?.range[1],
-         // ]);
-
-  // */}
             </Box>
           </Grid>
           <Grid

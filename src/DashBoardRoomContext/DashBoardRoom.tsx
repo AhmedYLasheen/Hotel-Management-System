@@ -2,7 +2,7 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
 
-export const contextDashBoard = createContext<{
+  export const contextDashBoard = createContext<{
   dataDashboard: number[];
   numberForFacilities: number[];
   numberForRooms: number[];
@@ -22,10 +22,10 @@ export const contextDashBoard = createContext<{
   completedBookings: [],
 });
 
-export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
+export function DashBoardRoom({ children }: React.PropsWithChildren<unknown>) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+ console.log(loading , error)
   const [dashboardData, setDashboardData] = useState<{
     dataDashboard: number[];
     numberForFacilities: number[];
@@ -45,14 +45,16 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
     pendingBookings: [],
     completedBookings: [],
   });
+  
   const getDashboard = async () => {
+    
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.get(
         `https://upskilling-egypt.com:3000/api/v0/admin/dashboard`,
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjExZThkNDZlYmJiZWZiYzE5ZWUyNmIiLCJyb2xlIjoiYWRtaW4iLCJ2ZXJpZmllZCI6ZmFsc2UsImlhdCI6MTcxMzcxMTEyMCwiZXhwIjoxNzE0OTIwNzIwfQ.LuBp9Ozojer7JYXXlw5xmiKu4iyoAL7IXS8crsYPVN0",
+            Authorization: token,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -94,4 +96,4 @@ export function DashBoardRoom({ children }: React.PropsWithChildren<{}>) {
       {children}
     </contextDashBoard.Provider>
   );
-};
+}

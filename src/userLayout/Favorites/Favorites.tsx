@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CardContent,
   IconButton,
   Pagination,
-  Typography
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../../Context/Components/AuthContext";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 
 export default function Favorites() {
@@ -27,15 +27,11 @@ export default function Favorites() {
 
   const authContext = useContext(AuthContext);
   let requestHeaders = {};
-  if (authContext) {
-    requestHeaders = authContext.requestHeaders;
-  } else {
-    // Handle the case where AuthContext is null
-    return null;
-  }
+
 
   const [favRoomsList, setFavRoomsList] = useState<{ images: string[]; roomNumber: string; price: number; _id: string; }[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  console.log(isLoading)
   // Pagination 
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
@@ -92,6 +88,7 @@ export default function Favorites() {
   );
 
   const handlePageChange = (event:any, value:any) => {
+    console.log(event)
     setPage(value);
   };
 
@@ -101,8 +98,14 @@ export default function Favorites() {
 
   const { t, i18n } = useTranslation();
   const directionStyle=i18n.resolvedLanguage;
+  console.log(directionStyle)
     // 
-
+    if (authContext) {
+      requestHeaders = authContext.requestHeaders;
+    } else {
+      // Handle the case where AuthContext is null
+      return null;
+    }
   return (
     <>
       <Box sx={{ mx: 5, mt: 1 }}>

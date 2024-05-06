@@ -71,7 +71,7 @@ export default function Login() {
           
         }else{
          
-          navigate("/landing");
+          navigate("/");
         }
 
         setSpinner(false);
